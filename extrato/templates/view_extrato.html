@@ -50,8 +50,12 @@
                 </div>
         </form>
             <div class="col-md-2">
-                <a href="" class="botao-secundario">Exportar extrato</a>
+                <a href="{% url 'exportar_pdf' %}" class="botao-secundario">Exportar extrato</a>
             </div>
+            <div class="col-md-2">
+                <a href="/extrato/limpar_filtros/" class="botao-secundario">Limpar Filtros</a>
+            </div>
+            
     </div>
     <br>
     <br>

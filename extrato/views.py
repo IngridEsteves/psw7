@@ -4,6 +4,12 @@ from .models import Valores
 from django.contrib import messages
 from django.contrib.messages import constants
 from datetime import datetime
+import os
+from django.template.loader import render_to_string
+from django.conf import settings
+from weasyprint import HTML
+from io import BytesIO
+from django.http import FileResponse
 
 
 # Create your views here.
@@ -60,5 +66,25 @@ def view_extrato(request):
 
     if categoria_get:
         valores = valores.filter(categoria__id=categoria_get)
-
+# TODO: Filtrar por período
     return render(request, 'view_extrato.html', {'valores': valores, 'contas': contas, 'categorias': categorias}) # noqa
+
+
+def limpar_filtros(request):
+    return redirect('/extrato/view_extrato/')
+
+
+def exportar_pdf(request):
+    valores = Valores.objects.filter(data__month=datetime.now().month)
+    contas = Conta.objects.all()
+    categorias = Categoria.objects.all()
+
+    path_template = os.path.join(settings.BASE_DIR, 'templates/partials/extrato.html') # noqa
+    path_output = BytesIO() # Salva os bytes em memória ram (temporária) # noqa
+
+    template_render = render_to_string(path_template, {'valores': valores, 'contas': contas, 'categorias': categorias}) # noqa
+    HTML(string=template_render).write_pdf(path_output)
+
+    path_output.seek(0)
+
+    return FileResponse(path_output, filename="extrato.pdf")
