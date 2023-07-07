@@ -28,7 +28,7 @@
                         <div class="lista-contas-main">
                             <span><img width="10%" src="{{conta.icone.url}}">&nbsp&nbsp{{conta.apelido}}</span>
 
-                            <span class="total-conta positivo ">R$ {{conta.valor}} <a href="/perfil/deletar_banco/{{conta.id}}"><img src="{% static 'perfil/img/exit.png' %}"></a></span>
+                            <span class="total-conta positivo ">R$ {{conta.valor | floatformat:2}} <a href="/perfil/deletar_banco/{{conta.id}}"><img src="{% static 'perfil/img/exit.png' %}"></a></span>
                         </div>
                         <br>
                     {% endfor %}                  
@@ -37,7 +37,7 @@
 
                 <hr>
                 <span class="fonte-destaque">Total:</span>
-                <span class="positivo total-conta font-destaque">R$ {{total_contas}}</span>
+                <span class="positivo total-conta font-destaque">R$ {{total_contas | floatformat:2}}</span>
             </div>
 
             <div class="col-md-2"></div>

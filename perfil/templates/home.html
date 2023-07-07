@@ -50,7 +50,7 @@
                     <div class="saldo">
                         <span class="fonte-destaque">Saldo total</span>
                         <br>
-                        <span class="font-light">R$ {{saldo_total}}</span>
+                        <span class="font-light">R$ {{saldo_total | floatformat:2}}</span>
                     </div>
                     <hr class="hr-borda">
                     <span class="fonte-destaque">Suas contas</span>
@@ -59,7 +59,7 @@
                         {% for conta in contas %}
                             <div class="lista-conta">
                                 <span>{{conta.apelido}}</span>
-                                <span class="total-conta">R$ {{conta.valor}}</span>
+                                <span class="total-conta">R$ {{conta.valor | floatformat:2}}</span>
                             </div>
                             <br>
                         {% endfor %}
