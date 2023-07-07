@@ -3,6 +3,7 @@ from perfil.models import Conta, Categoria
 from .models import Valores
 from django.contrib import messages
 from django.contrib.messages import constants
+from datetime import datetime
 
 
 # Create your views here.
@@ -41,5 +42,23 @@ def novo_valor(request):
 
         conta.save()
 
-        # messages.add_message(request, constants.SUCCESS, 'Entrada/Saída cadastrada com sucesso!')
+        # messages.add_message(request, constants.SUCCESS, 'Entrada/Saída cadastrada com sucesso!') # noqa
         return redirect('/extrato/novo_valor')
+
+
+def view_extrato(request):
+    contas = Conta.objects.all()
+    categorias = Categoria.objects.all()
+
+    conta_get = request.GET.get('conta')
+    categoria_get = request.GET.get('categoria')
+
+    valores = Valores.objects.filter(data__month=datetime.now().month)
+
+    if conta_get:
+        valores = valores.filter(conta__id=conta_get)
+
+    if categoria_get:
+        valores = valores.filter(categoria__id=categoria_get)
+
+    return render(request, 'view_extrato.html', {'valores': valores, 'contas': contas, 'categorias': categorias}) # noqa
