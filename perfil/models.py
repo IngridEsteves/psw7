@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime
 
 
 # Create your models here.
@@ -9,6 +10,29 @@ class Categoria(models.Model):
 
     def __str__(self):
         return self.categoria
+
+    def total_gasto(self):
+        from extrato.models import Valores
+        valores = Valores.objects.filter(categoria__id=self.id).filter(data__month=datetime.now().month).filter(tipo='S') # noqa
+        from .utils import calcula_total
+        total_valor = calcula_total(valores, 'valor')
+
+        return total_valor if total_valor else 0
+
+    def calcula_percentual_gasto_por_categoria(self):
+        # Adicione o try para evitar o ZeroDivisionError (Erro de divisão por zero) # noqa
+        try:
+            return int((self.total_gasto() * 100) / self.valor_planejamento)
+        except: # noqa
+            return 0
+
+    def total_mes(self):
+        from extrato.models import Valores
+        valores = Valores.objects.filter(data__month=datetime.now().month).filter(tipo='S') # noqa
+        from .utils import calcula_total
+        total = calcula_total(valores, 'valor')
+
+        return total if total else 0
 
 
 class Conta(models.Model):
