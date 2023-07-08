@@ -3,6 +3,7 @@ from .models import Conta, Categoria
 from django.contrib import messages
 from django.contrib.messages import constants
 from .utils import calcula_total
+from extrato.models import Valores
 
 
 # Create your views here.
@@ -81,3 +82,17 @@ def update_categoria(request, id):
 
     messages.add_message(request, constants.SUCCESS, 'Categoria alterada com sucesso!') # noqa
     return redirect('/perfil/gerenciar/')
+
+
+def dashboard(request):
+    dados = {}
+    categorias = Categoria.objects.all()
+
+    for categoria in categorias:
+        total = 0
+        valores = Valores.objects.filter(categoria=categoria)
+        for v in valores:
+            total = total + v.valor
+        dados[categoria.categoria] = total
+
+    return render(request, 'dashboard.html', {'labels': list(dados.keys()), 'values': list(dados.values())}) # noqa
