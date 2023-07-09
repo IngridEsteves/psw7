@@ -19,6 +19,14 @@ class Categoria(models.Model):
 
         return total_valor if total_valor else 0
 
+    def total_mes(self):
+        from extrato.models import Valores
+        valores = Valores.objects.filter(data__month=datetime.now().month).filter(tipo='S') # noqa
+        from .utils import calcula_total
+        total_ = calcula_total(valores, 'valor')
+
+        return total_ if total_ else 0
+
     def calcula_percentual_gasto_por_categoria(self):
         # Adicione o try para evitar o ZeroDivisionError (Erro de divisão por zero) # noqa
         try:

@@ -12,10 +12,43 @@
   
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #201F1F;">
+    <nav class="navbar navbar-expand-lg sticky-top navbar-dark" style="background-color: #201F1F;">
         <a class="navbar-brand" style="margin-left: 30px" href="{% url 'home' %}">FINAN.CE</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Alterna navegação">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="{% url 'gerenciar' %}">Gerenciamento</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'view_extrato' %}">Extrato</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link" href="{% url 'ver_planejamento' %}">Planejamento</a>
+              <!– # TODO: adicionar definir_planejamento no dropdown ->
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Contas</a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item" href="{% url 'definir_contas' %}">Adicionar contas</a>
+                <a class="dropdown-item" href="{% url 'ver_contas' %}">Visualizar contas</a>
+              </div>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'novo_valor' %}">Movimentação</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
+            </li>
+            <!– # TODO: adicionar cadatrar banco e cadastrar categoria no dropdown em cadastros ->
+          </ul>
+        </div>
+
     </nav>
     {% block 'body' %}{% endblock %}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>
+
